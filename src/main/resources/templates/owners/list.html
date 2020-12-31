@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
+<head>
+    <meta charset="UTF-8">
+    <title>Owners List</title>
+</head>
+
+<body>
+<h1 th:text="'List of Owners'"> List of Owners...</h1>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th style="width: 90px;">ID</th>
+        <th style="width: 90px;">Last Name</th>
+
+        <th style="width: 90px;">Phone Number</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="owner : ${owners}">
+        <td th:text="${owner?.getId()}">1</td>
+        <td>
+            <a th:href="@{/owners/__${owner.id}__}" th:text="${owner?.getLastName()}"></a>
+        </td>
+        <td th:text="${owner?.getPhoneNumber()}"></td>
+    </tr>
+    </tbody>
+
+</table>
+
+<br/>
+<a class="btn btn-default" th:href="@{/owners/new}">Add Owner</a>
+
+
+</body>
+</html>

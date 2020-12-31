@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'packageTypes')}">
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+<h1 th:text="'List of Types of packages'"> </h1>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th style="width: 90px;">ID</th>
+        <th style="width: 90px;">Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="packType : ${packageTypes}">
+        <td th:text="${packType?.getId()}">1</td>
+
+        <td th:text="${packType?.getName()}"></td>
+    </tr>
+    </tbody>
+
+</table>
+
+</body>
+</html>

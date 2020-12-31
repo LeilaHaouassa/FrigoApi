@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'packages')}">
+<head>
+    <meta charset="UTF-8">
+    <title>Packages List </title>
+</head>
+<body>
+<h1 th:text="'List of Packages'"></h1>
+
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+
+        <th style="width: 90px;">ID</th>
+        <th style="width: 90px;">Type</th>
+
+        <th style="width: 90px;">Quantity</th>
+
+        <th style="width: 90px;">Status</th>
+        <th style="width: 90px;">More</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="package : ${packages}">
+        <td th:text="${package?.getId()}">1</td>
+        <td th:text="${package?.getPackageType().getName()}">what's your favourite color?</td>
+        <td th:text="${package?.getQuantity()}">250</td>
+
+        <td th:text="${package?.getPackageStatus()}">out</td>
+        <td>
+            <a th:href="@{/owners/__${package.getStorehouse().getOwner().getId()}__/storehouses/__${package.getStorehouse().getId()}__/packages/__${package.getId()}__}" th:text="'...'"></a>
+        </td>
+
+        <!--        <td th:text="${#dates.format(survey?.getCreationDate(), 'dd-MM-yyyy HH:mm')}">1</td>-->
+
+
+    </tr>
+    </tbody>
+
+</table>
+
+</body>
+</html>

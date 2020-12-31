@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 @Getter
 public class PackageType extends BaseEntity{
     private String name;
-//    //This attribute designs the maximum healthy duration for a package to be stored
-//    private int limitDuration;
 }
+
+// the type was chosen to be an entity instead of an Enum because the admin can add or delete
+//types and as far as i know deleting enum without accessing the source code is not possible.

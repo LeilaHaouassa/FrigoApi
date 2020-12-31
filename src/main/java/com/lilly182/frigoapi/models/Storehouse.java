@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -12,6 +13,8 @@ import java.util.List;
 @Table(name = "storehouses")
 public class Storehouse extends BaseEntity {
     private String location;
+    @NotBlank
+    private String name;
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
     private Owner owner;

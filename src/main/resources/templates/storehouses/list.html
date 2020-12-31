@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'storehouses')}">
+<head>
+    <meta charset="UTF-8">
+    <title>Storehouses List</title>
+</head>
+
+<body>
+<h1 th:text="'List of Storehouses'"> </h1>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th style="width: 90px;">ID</th>
+        <th style="width: 90px;">Name</th>
+
+        <th style="width: 90px;">Location</th>
+        <th style="width: 90px;">View Packages</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="storehouse : ${storehouses}">
+        <td th:text="${storehouse?.getId()}">1</td>
+        <td th:text="${storehouse?.getName()}"></td>
+        <td th:text="${storehouse?.getLocation()}"></td>
+        <td>
+            <a th:href="@{/owners/__${storehouse.getOwner().getId()}__/storehouses/__${storehouse.getId()}__/packages}" >
+                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            </a>
+        </td>
+
+    </tr>
+    </tbody>
+
+</table>
+
+</body>

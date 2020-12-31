@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'storehouses')}">
+<head>
+    <meta charset="UTF-8">
+
+</head>
+<body>
+<h2>Storehouse</h2>
+<form th:object="${storehouse}" class="form-horizontal" id="add-owner-form" method="post">
+    <input type="hidden" name="id" th:value="*{id}" />
+    <div class="form-group has-feedback">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Owner</label>
+            <div class="col-sm-10">
+                <span th:text="${storehouse.owner?.getFullName()}"></span>
+            </div>
+        </div>
+        <input
+                th:replace="~{fragments/inputField :: input ('Name', 'name', 'text')}" />
+        <input
+                th:replace="~{fragments/inputField :: input ('Location', 'location', 'text')}" />
+
+
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button
+                    th:with="text=${storehouse['new']} ? 'Add Storehouse' : 'Update Storehouse'"
+                    class="btn btn-default" type="submit" th:text="${text}">Add
+                Storehouse</button>
+        </div>
+    </div>
+</form>
+
+
+</body>
+</html>

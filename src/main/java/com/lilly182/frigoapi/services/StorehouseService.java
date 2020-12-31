@@ -1,6 +1,7 @@
 package com.lilly182.frigoapi.services;
 
 import com.lilly182.frigoapi.exceptions.ResourceNotFoundException;
+import com.lilly182.frigoapi.models.Owner;
 import com.lilly182.frigoapi.models.Storehouse;
 import com.lilly182.frigoapi.repositories.StorehouseRepository;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ public class StorehouseService implements CrudService<Storehouse,Long> {
         Storehouse updatedStorehouse = findById(storehouseId);
         if (updatedStorehouse != null){
             updatedStorehouse.setLocation(storehouseDetails.getLocation());
+            updatedStorehouse.setName(storehouseDetails.getName());
             updatedStorehouse = storehouseRepository.save(updatedStorehouse);
         }
         return updatedStorehouse;
@@ -56,5 +58,11 @@ public class StorehouseService implements CrudService<Storehouse,Long> {
 
         storehouseRepository.deleteById(storehouseId);
 
+    }
+
+    public Storehouse addStorehouseToOwner(Owner owner, Storehouse storehouse){
+        owner.getStorehouseList().add(storehouse);
+        storehouse.setOwner(owner);
+        return storehouse;
     }
 }

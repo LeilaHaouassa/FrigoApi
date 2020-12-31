@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+th:replace="~{fragments/layout :: layout (~{::body},'packages')}">
+<head>
+    <meta charset="UTF-8">
+
+</head>
+<body>
+
+<h2>Package's Informations</h2>
+
+
+<table class="table table-striped" th:object="${package}">
+    <thead>
+    <tr>
+
+        <th style="width: 90px;">ID</th>
+        <th style="width: 90px;">Type</th>
+
+        <th style="width: 90px;">Quantity</th>
+
+        <th style="width: 90px;">Status</th>
+        <th style="width: 90px;">Entry</th>
+        <th style="width: 90px;">Exit</th>
+        <th style="width: 90px;">Expiration</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr >
+        <td th:text="${package?.getId()}">1</td>
+        <td th:text="${package?.getPackageType().getName()}">what's your favourite color?</td>
+        <td th:text="${package?.getQuantity()}">250</td>
+
+        <td th:text="${package?.getPackageStatus()}">out</td>
+
+        <td th:text="${#dates.format(package?.getEntryDate(), 'dd-MM-yyyy HH:mm')}">18</td>
+        <td th:text="${#dates.format(package?.getExitDate(), 'dd-MM-yyyy')}">02</td>
+        <td th:text="${#dates.format(package.getExpirationDate(), 'dd-MM-yyyy')}">97</td>
+
+
+    </tr>
+    </tbody>
+
+</table>
+
+<br />
+<a class="btn btn-default" th:href="/@{/owners/__${package.getStorehouse().getOwner().getId()}__/storehouses/__${package.getStorehouse().getId()}__/packages/__${package.getId()}__/edit}">Edit Package</a>
+</body>
+</html>

@@ -3,16 +3,17 @@ package com.lilly182.frigoapi.controllers;
 import com.lilly182.frigoapi.exceptions.ResourceNotFoundException;
 import com.lilly182.frigoapi.models.PackageType;
 import com.lilly182.frigoapi.services.PackageTypeService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Set;
 
-@RestController
-@RequestMapping("/api/types")
+@Controller
+@RequestMapping("/types")
 public class PackageTypeController {
     private final PackageTypeService packageTypeService;
 
@@ -27,36 +28,58 @@ public class PackageTypeController {
     }
 
     @GetMapping({"", "/"})
-    public ResponseEntity<Set<PackageType>> getPackageTypes() {
+    public String  getPackageTypes(Model model) {
 
         Set<PackageType> packageTypes = packageTypeService.findAll();
         if (packageTypes.isEmpty()) {
             throw (new ResourceNotFoundException("Could not Find any Types of packages"));
         }
-        return new ResponseEntity<>(packageTypes, HttpStatus.OK);
+        model.addAttribute("packageTypes",packageTypes);
+        return "packageTypes/list";
     }
-
+// Not needed for the moment but i'm keeping it just in case.
     @GetMapping("/{packageTypeId}")
-    public ResponseEntity<PackageType> getPackageType(@PathVariable Long packageTypeId) {
+    public String getPackageType(@PathVariable Long packageTypeId,Model model) {
         PackageType apackageType = packageTypeService.findById(packageTypeId);
         if (apackageType == null) throw new ResourceNotFoundException("packageType not found on : " + packageTypeId);
-        return ResponseEntity.ok().body(apackageType);
+        model.addAttribute("packageType",apackageType);
+        return "packageTypes/details";
     }
 
-    @PostMapping
-    public PackageType createPackageType(@Valid @RequestBody PackageType apackageType) {
-        return packageTypeService.save(apackageType);
+    @GetMapping("/new")
+    public String createPackageType(Model model){
+        model.addAttribute("packageType",new PackageType());
+        return "packageTypes/createOrUpdate";
     }
 
-    @PutMapping("/{packageTypeId}")
-    public ResponseEntity<PackageType> updatePackageType(
-            @PathVariable Long packageTypeId, @Valid @RequestBody PackageType packageTypeDetails)
+
+    @PostMapping("/new")
+    public String createPackageType(@Valid  PackageType apackageType, BindingResult result) {
+        if(result.hasErrors()){
+            return "packageTypes/createOrUpdate";
+        }else {
+            PackageType savedPackageType = packageTypeService.save(apackageType);
+            return "redirect:/types/" ;
+        }
+    }
+
+
+    @GetMapping("/{packageTypeId}/edit")
+    public String updatePackageType(@PathVariable Long packageTypeId, Model model){
+        model.addAttribute("packageType",packageTypeService.findById(packageTypeId));
+        return "packageTypes/createOrUpdate";
+    }
+    @PostMapping("/{packageTypeId}/edit")
+    public String updatePackageType(
+            @PathVariable Long packageTypeId, @Valid  PackageType packageTypeDetails, BindingResult result)
             throws ResourceNotFoundException {
-
-        PackageType packageType = packageTypeService.update(packageTypeId,packageTypeDetails);
-        if(packageType == null) throw new ResourceNotFoundException("packageType not found on : " + packageTypeId);
-
-        return ResponseEntity.ok(packageType);
+        if (result.hasErrors()) {
+            return "packageTypes/createOrUpdate";
+        }else{
+            PackageType updatedPackageType = packageTypeService.update(packageTypeId,packageTypeDetails);
+            if(updatedPackageType == null) throw new ResourceNotFoundException("packageType not found on : " + packageTypeId);
+            return "redirect:/types/";
+        }
     }
 
     @DeleteMapping("/{packageTypeId}")

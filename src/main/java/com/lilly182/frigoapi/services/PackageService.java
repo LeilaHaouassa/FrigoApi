@@ -4,6 +4,7 @@ package com.lilly182.frigoapi.services;
 import com.lilly182.frigoapi.exceptions.ResourceNotFoundException;
 import com.lilly182.frigoapi.models.Package;
 import com.lilly182.frigoapi.models.PackageStatus;
+import com.lilly182.frigoapi.models.Storehouse;
 import com.lilly182.frigoapi.repositories.PackageRepository;
 import org.springframework.stereotype.Service;
 
@@ -74,5 +75,11 @@ public class PackageService implements CrudService<Package,Long> {
         Package toDeletePackage = findById(packageId);
         if(toDeletePackage == null) throw  new ResourceNotFoundException("No Package was found with such id "+ packageId);
         packageRepository.deleteById(packageId);
+    }
+
+    public Package addPackageToStorehouse(Storehouse storehouse, Package aPackage ){
+        aPackage.setStorehouse(storehouse);
+        storehouse.getPackages().add(aPackage);
+        return aPackage;
     }
 }

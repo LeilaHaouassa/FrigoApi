@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
+<head>
+    <meta charset="UTF-8">
+    <title>Owner details</title>
+</head>
+<body>
+
+<h2>Owner's Informations</h2>
+
+
+<table class="table table-striped" th:object="${owner}">
+    <tr>
+        <th>ID</th>
+        <td><b th:text="*{getId()}"></b></td>
+    </tr>
+    <tr>
+        <th>Full Name</th>
+        <td th:text="*{getFullName()}"></td>
+    </tr>
+    <tr>
+        <th>Age</th>
+        <td th:text="*{getAge()}"></td>
+    </tr>
+    <tr>
+        <th>Phone number</th>
+        <td th:text="*{getPhoneNumber()}"></td>
+    </tr>
+    <tr>
+        <th>Email</th>
+        <td th:text="*{getEmail()}"></td>
+    </tr>
+    <tr>
+        <th>Address</th>
+        <td th:text="*{getAddress()}"></td>
+    </tr>
+</table>
+
+<a th:href="@{{id}/edit(id=${owner.id})}" class="btn btn-default">Edit
+    Owner</a>
+<a th:href="@{{id}/storehouses/new(id=${owner.id})}" class="btn btn-default">Add
+    Storehouse</a>
+
+<br />
+<br />
+<br />
+<h2>List of Storehouses</h2>
+
+<table class="table table-striped">
+
+    <thead>
+    <tr>
+
+        <th style="width: 90px;">Name</th>
+
+        <th style="width: 90px;">Location</th>
+        <th style="width: 90px;">View Packages</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="storehouse : ${owner.getStorehouseList()}">
+
+        <td th:text="${storehouse?.getName()}"></td>
+        <td th:text="${storehouse?.getLocation()}"></td>
+        <td>
+            <a th:href="@{/owners/__${storehouse.getOwner().getId()}__/storehouses/__${storehouse.getId()}__/packages}" >
+<!--                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>-->
+                list of packages
+            </a>
+        </td>
+
+    </tr>
+    </tbody>
+
+</table>
+
+</body>
+</html>

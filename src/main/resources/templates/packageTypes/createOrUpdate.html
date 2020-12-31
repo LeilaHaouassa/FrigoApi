@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'packageTypes')}">
+<head>
+    <meta charset="UTF-8">
+
+</head>
+<body>
+<h2>Type Of Package</h2>
+<form th:object="${packageType}" class="form-horizontal" id="add-owner-form" method="post">
+    <input type="hidden" name="id" th:value="*{id}" />
+    <div class="form-group has-feedback">
+
+        <input
+                th:replace="~{fragments/inputField :: input ('Name', 'name', 'text')}" />
+
+
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button
+                    th:with="text=${packageType['new']} ? 'Add Type of Package' : 'Update Type of Package'"
+                    class="btn btn-default" type="submit" th:text="${text}">Add
+                Type of Package</button>
+        </div>
+    </div>
+</form>
+
+
+</body>

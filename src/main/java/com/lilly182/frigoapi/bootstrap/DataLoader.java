@@ -5,6 +5,7 @@ import com.lilly182.frigoapi.services.OwnerService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+// this class allows me to create some dummy data.
 @Component
 public class DataLoader implements CommandLineRunner{
 
