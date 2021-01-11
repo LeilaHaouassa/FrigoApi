@@ -4,9 +4,11 @@ import com.lilly182.frigoapi.exceptions.ResourceNotFoundException;
 import com.lilly182.frigoapi.models.Owner;
 import com.lilly182.frigoapi.repositories.OwnerRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
+@Transactional
 @Service
 public class OwnerService implements CrudService<Owner,Long> {
 

@@ -41,6 +41,8 @@
     Owner</a>
 <a th:href="@{{id}/storehouses/new(id=${owner.id})}" class="btn btn-default">Add
     Storehouse</a>
+<a th:href="@{/owners/}" class="btn btn-default">All
+    Owners</a>
 
 <br />
 <br />
@@ -55,7 +57,7 @@
         <th style="width: 90px;">Name</th>
 
         <th style="width: 90px;">Location</th>
-        <th style="width: 90px;">View Packages</th>
+        <th style="width: 90px;">Packages</th>
 
     </tr>
     </thead>
@@ -67,7 +69,7 @@
         <td>
             <a th:href="@{/owners/__${storehouse.getOwner().getId()}__/storehouses/__${storehouse.getId()}__/packages}" >
 <!--                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>-->
-                list of packages
+                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
             </a>
         </td>
 

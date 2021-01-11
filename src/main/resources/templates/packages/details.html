@@ -45,6 +45,7 @@ th:replace="~{fragments/layout :: layout (~{::body},'packages')}">
 </table>
 
 <br />
-<a class="btn btn-default" th:href="/@{/owners/__${package.getStorehouse().getOwner().getId()}__/storehouses/__${package.getStorehouse().getId()}__/packages/__${package.getId()}__/edit}">Edit Package</a>
+<a class="btn btn-default" th:href="@{/owners/__${package.getStorehouse().getOwner().getId()}__/}">Return</a>
+<a class="btn btn-default" th:href="@{/owners/__${package.getStorehouse().getOwner().getId()}__/storehouses/__${package.getStorehouse().getId()}__/packages/__${package.getId()}__/edit}">Edit Package</a>
 </body>
 </html>

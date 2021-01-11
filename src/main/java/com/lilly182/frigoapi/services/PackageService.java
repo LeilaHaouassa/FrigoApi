@@ -7,10 +7,12 @@ import com.lilly182.frigoapi.models.PackageStatus;
 import com.lilly182.frigoapi.models.Storehouse;
 import com.lilly182.frigoapi.repositories.PackageRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+@Transactional
 @Service
 public class PackageService implements CrudService<Package,Long> {
 
@@ -27,7 +29,7 @@ public class PackageService implements CrudService<Package,Long> {
 
         for (Package aPackage: packages) {
             changePackageStatus(aPackage);
-            packageRepository.save(aPackage);
+
         }
         return packages;
     }
@@ -38,6 +40,7 @@ public class PackageService implements CrudService<Package,Long> {
         }else if(aPackage.getExpirationDate().compareTo(new Date()) <= 0) {
             aPackage.setPackageStatus(PackageStatus.EXPIRED);
         }
+        packageRepository.save(aPackage);
     }
 
     @Override

@@ -3,10 +3,11 @@ package com.lilly182.frigoapi.services;
 import com.lilly182.frigoapi.models.PackageType;
 import com.lilly182.frigoapi.repositories.PackageTypeRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
-
+@Transactional
 @Service
 public class PackageTypeService implements CrudService<PackageType,Long> {
 

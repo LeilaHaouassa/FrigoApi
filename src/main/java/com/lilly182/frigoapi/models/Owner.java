@@ -11,7 +11,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -32,7 +33,7 @@ public class Owner extends BaseEntity{
     @NotBlank
     private String address;
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "owner")
-    private List<Storehouse> storehouseList;
+    private Set<Storehouse> storehouseList = new HashSet<>();
 
 
     public String getFullName(){

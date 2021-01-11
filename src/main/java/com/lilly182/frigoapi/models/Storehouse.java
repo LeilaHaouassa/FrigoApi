@@ -5,7 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -19,5 +20,5 @@ public class Storehouse extends BaseEntity {
     @JoinColumn(name = "owner_id", nullable = false)
     private Owner owner;
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "storehouse")
-    private List<Package> packages;
+    private Set<Package> packages = new HashSet<>();
 }

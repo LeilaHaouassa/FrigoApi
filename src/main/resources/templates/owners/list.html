@@ -15,6 +15,7 @@
         <th style="width: 90px;">Last Name</th>
 
         <th style="width: 90px;">Phone Number</th>
+        <th style="width: 90px;">Details</th>
 
 
     </tr>
@@ -22,10 +23,13 @@
     <tbody>
     <tr th:each="owner : ${owners}">
         <td th:text="${owner?.getId()}">1</td>
-        <td>
-            <a th:href="@{/owners/__${owner.id}__}" th:text="${owner?.getLastName()}"></a>
-        </td>
+        <td th:text="${owner?.getLastName()}"></td>
         <td th:text="${owner?.getPhoneNumber()}"></td>
+        <td>
+            <a th:href="@{/owners/__${owner.id}__}" >
+                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>
+            </a>
+        </td>
     </tr>
     </tbody>
 
