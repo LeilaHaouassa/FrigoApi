@@ -19,6 +19,7 @@
 
         <th style="width: 90px;">Status</th>
         <th style="width: 90px;"></th>
+        <th style="width: 90px;"></th>
     </tr>
     </thead>
     <tbody>
@@ -29,12 +30,17 @@
 
         <td th:text="${package?.getPackageStatus()}">out</td>
         <td>
-            <a th:href="@{/owners/__${package.getStorehouse().getOwner().getId()}__/storehouses/__${package.getStorehouse().getId()}__/packages/__${package.getId()}__}" >
+            <a th:href="@{/owners/__${package?.getStorehouse().getOwner().getId()}__/storehouses/__${package.getStorehouse().getId()}__/packages/__${package.getId()}__}" >
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>
             </a>
         </td>
+        <td>
+            <a th:href="@{/owners/__${package?.getStorehouse().getOwner().getId()}__/storehouses/__${package.getStorehouse().getId()}__/packages/__${package.getId()}__/exit}" >
+                <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
+            </a>
+        </td>
 
-        <!--        <td th:text="${#dates.format(survey?.getCreationDate(), 'dd-MM-yyyy HH:mm')}">1</td>-->
+
 
 
     </tr>
@@ -42,6 +48,7 @@
 
 </table>
 <br/>
+<a class="btn btn-default" th:href="@{/owners/__${storehouse.getOwner().getId()}__/storehouses/__${storehouse.getId()}__/packages/new}">Add Package</a>
 
 </body>
 </html>

@@ -17,7 +17,7 @@ th:replace="~{fragments/layout :: layout (~{::body},'packages')}">
         <th style="width: 90px;">ID</th>
         <th style="width: 90px;">Type</th>
 
-        <th style="width: 90px;">Quantity</th>
+        <th style="width: 90px;">Quantity(Kg)</th>
 
         <th style="width: 90px;">Status</th>
         <th style="width: 90px;">Entry</th>
@@ -34,9 +34,9 @@ th:replace="~{fragments/layout :: layout (~{::body},'packages')}">
 
         <td th:text="${package?.getPackageStatus()}">out</td>
 
-        <td th:text="${#dates.format(package?.getEntryDate(), 'dd-MM-yyyy HH:mm')}">18</td>
-        <td th:text="${#dates.format(package?.getExitDate(), 'dd-MM-yyyy')}">02</td>
-        <td th:text="${#dates.format(package.getExpirationDate(), 'dd-MM-yyyy')}">97</td>
+        <td th:text="${#dates.format(package?.getEntryDate(), 'yyyy-MM-dd HH:mm')}">18</td>
+        <td th:text="${#dates.format(package?.getExitDate(), 'yyyy-MM-dd HH:mm')}">02</td>
+        <td th:text="${#dates.format(package.getExpirationDate(), 'yyyy-MM-dd')}">97</td>
 
 
     </tr>

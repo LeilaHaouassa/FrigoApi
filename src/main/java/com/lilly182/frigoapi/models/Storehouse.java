@@ -21,4 +21,5 @@ public class Storehouse extends BaseEntity {
     private Owner owner;
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "storehouse")
     private Set<Package> packages = new HashSet<>();
+
 }

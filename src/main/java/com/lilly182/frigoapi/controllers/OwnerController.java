@@ -80,7 +80,7 @@ public class OwnerController {
     }
 
 
-    @DeleteMapping("/{ownerId}")
+    @DeleteMapping("/{ownerId}/delete")
     public void updateOwner(Long ownerId){
          ownerService.deleteById(ownerId);
     }

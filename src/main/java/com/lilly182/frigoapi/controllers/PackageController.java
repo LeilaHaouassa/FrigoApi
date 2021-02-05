@@ -2,8 +2,10 @@ package com.lilly182.frigoapi.controllers;
 
 import com.lilly182.frigoapi.exceptions.ResourceNotFoundException;
 import com.lilly182.frigoapi.models.Package;
+import com.lilly182.frigoapi.models.PackageType;
 import com.lilly182.frigoapi.models.Storehouse;
 import com.lilly182.frigoapi.services.PackageService;
+import com.lilly182.frigoapi.services.PackageTypeService;
 import com.lilly182.frigoapi.services.StorehouseService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +21,12 @@ import java.util.Set;
 public class PackageController {
     private final PackageService packageService;
     private final StorehouseService storehouseService;
+    private final PackageTypeService packageTypeService;
 
-    public PackageController(PackageService packageService, StorehouseService storehouseService) {
+    public PackageController(PackageService packageService, StorehouseService storehouseService, PackageTypeService packageTypeService) {
         this.packageService = packageService;
         this.storehouseService = storehouseService;
+        this.packageTypeService = packageTypeService;
     }
 
     @InitBinder
@@ -36,13 +40,15 @@ public class PackageController {
     }
 
     @GetMapping({"", "/"})
-    public String getPackages(Model model) {
+    public String getPackages(@PathVariable Long storehouseId, Model model) {
 
-        Set<Package> packages = packageService.findAll();
+        Set<Package> packages = packageService.findAllByStorehouse(storehouseId);
         if (packages.isEmpty()) {
             throw (new ResourceNotFoundException("Could not Find any packages"));
         }
+        Storehouse storehouse = storehouseService.findById(storehouseId);
         model.addAttribute("packages",packages);
+        model.addAttribute("storehouse", storehouse);
         return "packages/list";
     }
 
@@ -58,12 +64,14 @@ public class PackageController {
     public String createPackage(Storehouse storehouse, Model model){
         Package newPackage = packageService.addPackageToStorehouse(storehouse,new Package());
         model.addAttribute("package",newPackage);
+        Set<PackageType> packageTypes= packageTypeService.findAll();
+        model.addAttribute("types",packageTypes);
         return "packages/createOrUpdate";
     }
 
     @PostMapping("/new")
     public String createPackage(Storehouse storehouse, @Valid  Package aPackage, BindingResult result, Model model) {
-        if(result.hasErrors()){
+        if(  result.hasErrors()  ){
             aPackage.setStorehouse(storehouse);
             model.addAttribute("package",aPackage);
             return "packages/createOrUpdate";
@@ -77,6 +85,8 @@ public class PackageController {
     @GetMapping("/{packageId}/edit")
     public String updatePackage( @PathVariable Long packageId, Model model ){
         model.addAttribute("package",packageService.findById(packageId));
+        Set<PackageType> packageTypes= packageTypeService.findAll();
+        model.addAttribute("types",packageTypes);
         return "packages/createOrUpdate";
     }
 
@@ -85,6 +95,7 @@ public class PackageController {
     public String updatePackage(
             @PathVariable Long packageId, @Valid Package packageDetails, BindingResult result, Model model, Storehouse storehouse)
             throws ResourceNotFoundException {
+
         if(result.hasErrors()){
             packageDetails.setStorehouse(storehouse);
             model.addAttribute("package",packageDetails);
@@ -97,7 +108,13 @@ public class PackageController {
         }
     }
 
-    @DeleteMapping("/{packageId}")
+    @GetMapping("/{packageId}/exit")
+    public String exitPackage(@PathVariable Long packageId){
+        Package exitedPackage = packageService.exitPackage(packageId);
+        return "redirect:/owners/{ownerId}/storehouses/{storehouseId}/packages";
+    }
+
+    @DeleteMapping("/{packageId}/delete")
     public void updatePackage(Long packageId){
         packageService.deleteById(packageId);
     }

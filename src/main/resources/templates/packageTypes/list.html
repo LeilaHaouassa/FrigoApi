@@ -12,6 +12,8 @@
     <tr>
         <th style="width: 90px;">ID</th>
         <th style="width: 90px;">Name</th>
+        <th style="width: 90px;"></th>
+
     </tr>
     </thead>
     <tbody>
@@ -19,10 +21,18 @@
         <td th:text="${packType?.getId()}">1</td>
 
         <td th:text="${packType?.getName()}"></td>
+        <td>
+            <a th:href="@{/types/__${packType.getId()}__/edit}" >
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            </a>
+        </td>
+
     </tr>
     </tbody>
 
 </table>
 
+<br/>
+<a class="btn btn-default" th:href="@{/types/new}">Add Type</a>
 </body>
 </html>

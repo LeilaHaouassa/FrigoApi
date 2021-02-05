@@ -99,7 +99,7 @@ public class StorehouseController {
         }
     }
 
-    @DeleteMapping("/{storehouseId}")
+    @DeleteMapping("/{storehouseId}/delete")
     public void updateStorehouse(Long storehouseId){
         storehouseService.deleteById(storehouseId);
     }

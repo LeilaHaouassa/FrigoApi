@@ -82,8 +82,9 @@ public class PackageTypeController {
         }
     }
 
-    @DeleteMapping("/{packageTypeId}")
-    public void updatePackageType(Long packageTypeId){
+    @GetMapping("/{packageTypeId}/delete")
+    public String updatePackageType(Long packageTypeId){
         packageTypeService.deleteById(packageTypeId);
+        return "redirect:/types/";
     }
 }

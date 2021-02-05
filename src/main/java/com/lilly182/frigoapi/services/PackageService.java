@@ -17,9 +17,11 @@ import java.util.Set;
 public class PackageService implements CrudService<Package,Long> {
 
     private final PackageRepository packageRepository;
+    private final StorehouseService storehouseService;
 
-    public PackageService(PackageRepository packageRepository) {
+    public PackageService(PackageRepository packageRepository, StorehouseService storehouseService) {
         this.packageRepository = packageRepository;
+        this.storehouseService = storehouseService;
     }
 
     @Override
@@ -33,6 +35,25 @@ public class PackageService implements CrudService<Package,Long> {
         }
         return packages;
     }
+
+    public Set<Package> findAllByStorehouse(Long storehouseId){
+        Set<Package> packages = new HashSet<>();
+        Storehouse storehouse = storehouseService.findById(storehouseId);
+        packages = packageRepository.findAllByStorehouse(storehouse);
+        for (Package aPackage: packages) {
+            changePackageStatus(aPackage);
+        }
+        return packages;
+    }
+
+
+    public Set<Package> findAllIn(){
+        Set<Package> packages = new HashSet<>();
+        packageRepository.findAllByPackageStatus(PackageStatus.IN).forEach(packages::add);
+        return packages;
+    }
+
+
 
     public void changePackageStatus(Package aPackage) {
         if(aPackage.getExitDate() != null){
@@ -51,7 +72,7 @@ public class PackageService implements CrudService<Package,Long> {
     @Override
     public Package update(Long packageId,Package packageDetails) {
         Package updatedPackage = findById(packageId);
-        if(updatedPackage != null){
+        if((updatedPackage != null) & (!VerifyDates(packageDetails))){
             updatedPackage.setEntryDate(packageDetails.getEntryDate());
             updatedPackage.setExitDate(packageDetails.getExitDate());
             updatedPackage.setExpirationDate(packageDetails.getExpirationDate());
@@ -84,5 +105,25 @@ public class PackageService implements CrudService<Package,Long> {
         aPackage.setStorehouse(storehouse);
         storehouse.getPackages().add(aPackage);
         return aPackage;
+    }
+
+    public Package exitPackage(Long packageId){
+        Package toExitPackage = findById(packageId);
+        if(toExitPackage == null) throw  new ResourceNotFoundException("No Package was found with such id "+ packageId);
+        toExitPackage.setExitDate(new Date());
+        packageRepository.save(toExitPackage);
+        return toExitPackage;
+    }
+
+    public Boolean VerifyDates(Package aPackage){
+        Boolean test;
+        int var1 = aPackage.getExpirationDate().compareTo(aPackage.getEntryDate());
+        int var2;
+        if(aPackage.getExitDate()!=null){
+            var2 = aPackage.getExitDate().compareTo(aPackage.getEntryDate());
+            test = (var1>0)&(var2>0);
+        }
+        test= var1>0;
+        return test;
     }
 }

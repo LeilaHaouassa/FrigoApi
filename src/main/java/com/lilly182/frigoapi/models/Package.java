@@ -16,19 +16,19 @@ import java.util.Date;
 @Setter
 public class Package extends BaseEntity {
     @ManyToOne(cascade=CascadeType.MERGE)
-    @JoinColumn(name = "owner_id", nullable = false)
+    @JoinColumn(name = "packagetype_id", nullable = false)
     private PackageType packageType;
     @ManyToOne
     @JoinColumn(name = "storehouse_id", nullable = false)
     private Storehouse storehouse;
     @CreationTimestamp
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date entryDate;
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
     private Date exitDate;
 
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date expirationDate;
     @NotNull

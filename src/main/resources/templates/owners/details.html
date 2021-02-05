@@ -67,10 +67,16 @@
         <td th:text="${storehouse?.getName()}"></td>
         <td th:text="${storehouse?.getLocation()}"></td>
         <td>
-            <a th:href="@{/owners/__${storehouse.getOwner().getId()}__/storehouses/__${storehouse.getId()}__/packages}" >
-<!--                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>-->
-                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-            </a>
+          <div th:if="${(storehouse.packages.isEmpty())}">
+                <a th:href="@{/owners/__${storehouse.getOwner().getId()}__/storehouses/__${storehouse.getId()}__/packages/new}" >
+                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                </a>
+          </div>
+            <div th:unless="${storehouse.packages.isEmpty()}">
+                <a th:href="@{/owners/__${storehouse.getOwner().getId()}__/storehouses/__${storehouse.getId()}__/packages}" >
+                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                </a>
+            </div>
         </td>
 
     </tr>
